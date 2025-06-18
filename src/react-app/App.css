@@ -1,45 +1,96 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
+/* Basic Reset & App Layout */
+body { margin: 0; font-family: sans-serif; background-color: #f4f7f6; color: #333; }
+.app-header { background-color: #2c3e50; color: white; padding: 1rem; display: flex; justify-content: space-between; align-items: center; }
+.app-header h1 { margin: 0; font-size: 1.5rem; }
+.app-header nav a, .app-header .logout-button { color: white; margin-left: 1rem; text-decoration: none; padding: 0.5rem; background: none; border: none; cursor: pointer; font-size: 1rem; }
+.app-header nav a:hover, .app-header .logout-button:hover { background-color: #34495e; border-radius: 4px; }
+.app-main { padding: 1rem 2rem; max-width: 900px; margin: 0 auto; }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+/* Auth Pages & Forms */
+.auth-page, .dashboard-page { background-color: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+.auth-form div, .add-domain-form div { margin-bottom: 1rem; }
+.auth-form label, .add-domain-form label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
+.auth-form input[type="email"], .auth-form input[type="password"], .add-domain-form input[type="text"] {
+    width: calc(100% - 22px); padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+.auth-form button, .add-domain-form button, .delete-button {
+    background-color: #3498db; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem;
 }
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-.logo.cloudflare:hover {
-  filter: drop-shadow(0 0 2em #f6821faa);
-}
+.auth-form button:hover, .add-domain-form button:hover, .delete-button:hover { background-color: #2980b9; }
+.auth-form button:disabled, .add-domain-form button:disabled { background-color: #bdc3c7; cursor: not-allowed; }
+.auth-page p { margin-top: 1rem; text-align: center; }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+/* Messages */
+.error-message { color: #e74c3c; background-color: #fdd; padding: 0.75rem; border-radius: 4px; border: 1px solid #e74c3c; margin-bottom: 1rem; }
+.success-message { color: #27ae60; background-color: #e6ffed; padding: 0.75rem; border-radius: 4px; border: 1px solid #27ae60; margin-bottom: 1rem; }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
+/* Domain List */
+.domain-list-container { margin-top: 2rem; }
+.domain-list { list-style: none; padding: 0; }
+.domain-list-item { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border: 1px solid #eee; border-radius: 4px; margin-bottom: 0.5rem; background-color: #f9f9f9; }
+.domain-list-item span { flex-grow: 1; }
+.delete-button { background-color: #e74c3c; margin-left: 1rem; }
+.delete-button:hover { background-color: #c0392b; }
 
-.card {
-  padding: 2em;
-}
+/* Vite specific: ensure public/vite.svg and src/assets/react.svg are handled or removed if not used in App.tsx */
+/* Consider removing default Vite styles from App.css if they conflict */
 
-.read-the-docs {
-  color: #888;
+/* General Page & Card Structure */
+.page-container { padding: 1rem; }
+.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.page-header h2 { margin: 0; }
+.back-link { color: #3498db; text-decoration: none; }
+.back-link:hover { text-decoration: underline; }
+
+.card { background-color: #fff; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 1.5rem; }
+.card-sm { padding: 1rem; margin-bottom: 1rem; border: 1px solid #eee; background-color: #f9f9f9; }
+.card h3 { margin-top: 0; margin-bottom: 1rem; color: #2c3e50; }
+
+/* Domain Details Page */
+.domain-details-page .page-header h2 { font-size: 1.8rem; color: #2c3e50;}
+.domain-info-card p { margin: 0.5rem 0; font-size: 1rem; }
+.domain-info-card strong { color: #555; }
+
+.certificate-management .action-button { margin-bottom: 1rem; }
+
+/* Certificate List */
+.certificate-list { list-style: none; padding: 0; }
+.certificate-item { border-bottom: 1px solid #eee; padding-bottom: 1rem; margin-bottom: 1rem; }
+.certificate-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.certificate-item p { margin: 0.3rem 0; font-size: 0.9rem; }
+.certificate-item strong { color: #333; }
+
+/* Status Badges */
+.status-badge {
+    padding: 0.25em 0.6em;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border-radius: 10px;
+    text-transform: capitalize;
+    display: inline-block;
 }
+.status-badge.status-active, .status-badge.status-issued { background-color: #2ecc71; color: white; }
+.status-badge.status-pending_validation, .status-badge.status-pending { background-color: #f39c12; color: white; }
+.status-badge.status-issuance_failed, .status-badge.status-validation_failed, .status-badge.status-error, .status-badge.status-issuance_error { background-color: #e74c3c; color: white; }
+.status-badge.status-unknown, .status-badge.status-revoked { background-color: #95a5a6; color: white; }
+
+/* Action Buttons (generalizing from .delete-button) */
+.action-button {
+    background-color: #3498db; color: white; padding: 8px 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem; text-decoration: none; display: inline-block; margin-left: 0.5rem;
+}
+.action-button:hover { background-color: #2980b9; }
+.action-button.delete-button { background-color: #e74c3c; }
+.action-button.delete-button:hover { background-color: #c0392b; }
+.action-button:disabled { background-color: #bdc3c7; cursor: not-allowed; }
+
+/* Domain List Item refined */
+.domain-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.domain-info { flex-grow: 1; display: flex; align-items: center; }
+.domain-fqdn { font-weight: bold; margin-right: 1rem; }
+.domain-actions .action-button { margin-left: 0.5rem; }
+.domain-actions .manage-button { background-color: #27ae60; }
+.domain-actions .manage-button:hover { background-color: #229954; }

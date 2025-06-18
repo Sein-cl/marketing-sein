@@ -1,66 +1,64 @@
-// src/App.tsx
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate, Outlet, Link } from 'react-router-dom';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import DashboardPage from './pages/DashboardPage';
+import DomainDetailsPage from './pages/DomainDetailsPage'; // Import the new page
+import { isAuthenticated, logoutUser } from './services/api';
+import './App.css'; // Ensure this file exists
 
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import cloudflareLogo from "./assets/Cloudflare_Logo.svg";
-import honoLogo from "./assets/hono.svg";
-import "./App.css";
+const ProtectedRoute: React.FC = () => {
+    if (!isAuthenticated()) {
+        return <Navigate to="/login" replace />;
+    }
+    return <Outlet />;
+};
+
+const AppHeader: React.FC = () => {
+    const handleLogout = () => {
+        logoutUser();
+        // Force re-render or navigate. window.location.href is simple for now.
+        window.location.href = '/login';
+    };
+
+    return (
+        <header className="app-header">
+            <h1>Certificate Manager</h1>
+            <nav>
+                {isAuthenticated() ? (
+                    <>
+                        <Link to="/dashboard">Dashboard</Link>
+                        <button onClick={handleLogout} className="logout-button">Logout</button>
+                    </>
+                ) : (
+                    <>
+                        <Link to="/login">Login</Link>
+                        <Link to="/register">Register</Link>
+                    </>
+                )}
+            </nav>
+        </header>
+    );
+};
+
 
 function App() {
-  const [count, setCount] = useState(0);
-  const [name, setName] = useState("unknown");
-
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-        <a href="https://hono.dev/" target="_blank">
-          <img src={honoLogo} className="logo cloudflare" alt="Hono logo" />
-        </a>
-        <a href="https://workers.cloudflare.com/" target="_blank">
-          <img
-            src={cloudflareLogo}
-            className="logo cloudflare"
-            alt="Cloudflare logo"
-          />
-        </a>
-      </div>
-      <h1>Vite + React + Hono + Cloudflare</h1>
-      <div className="card">
-        <button
-          onClick={() => setCount((count) => count + 1)}
-          aria-label="increment"
-        >
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <div className="card">
-        <button
-          onClick={() => {
-            fetch("/api/")
-              .then((res) => res.json() as Promise<{ name: string }>)
-              .then((data) => setName(data.name));
-          }}
-          aria-label="get name"
-        >
-          Name from API is: {name}
-        </button>
-        <p>
-          Edit <code>worker/index.ts</code> to change the name
-        </p>
-      </div>
-      <p className="read-the-docs">Click on the logos to learn more</p>
-    </>
-  );
+    return (
+        <BrowserRouter>
+            <AppHeader />
+            <main className="app-main">
+                <Routes>
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/register" element={<RegisterPage />} />
+                    <Route element={<ProtectedRoute />}>
+                        <Route path="/dashboard" element={<DashboardPage />} />
+                        <Route path="/dashboard/domains/:domainId" element={<DomainDetailsPage />} /> {/* New Route */}
+                    </Route>
+                    <Route path="/" element={isAuthenticated() ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
+                    <Route path="*" element={<Navigate to="/" />} /> {/* Basic catch-all */}
+                </Routes>
+            </main>
+        </BrowserRouter>
+    );
 }
-
 export default App;

@@ -1,0 +1,32 @@
+# Top-level configuration
+name = "certificate-manager-worker" # Replace with your worker name
+main = "src/worker/index.ts" # Entry point for your worker
+compatibility_date = "2024-03-18" # Check for latest date
+
+# D1 Database binding
+[[d1_databases]]
+binding = "DB" # i.e. env.DB
+database_name = "certificate-manager-db" # Replace with your D1 DB name
+database_id = "YOUR_CLOUDFLARE_D1_DATABASE_ID_HERE" # Replace with actual ID from Cloudflare dashboard
+preview_database_id = "YOUR_CLOUDFLARE_D1_PREVIEW_DATABASE_ID_HERE" # Replace with actual ID (often same as database_id or a specific preview one)
+migrations_dir = "src/worker/migrations"
+
+# Optional: Environment variables for your worker
+# [vars]
+# MY_VARIABLE = "production_value"
+
+# Optional: Configuration for local development with `wrangler dev`
+[dev]
+# ip = "127.0.0.1" # Default
+# port = 8787 # Default
+# local_protocol = "http" # Default
+# persist = true # Persist data locally in .wrangler/state
+
+# Optional: Build configuration
+# [build]
+# command = "npm run build" # If you have a build step
+# upload.format = "service-worker" # or "modules" if using ES Modules format directly
+
+# Note: For a new project, you might need to run `wrangler init` first
+# to generate a basic wrangler.toml if you haven't.
+# This example assumes you are adding D1 to an existing or manually set up project.
