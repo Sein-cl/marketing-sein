@@ -15,7 +15,7 @@
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "certificate-manager-db",
+      "database_name": "cmss-sein",
       "database_id": "cmss-sein",
       "preview_database_id": "b5bf2ce3-7656-4df2-8b49-6e5f6ff36278",
       "migrations_dir": "src/worker/migrations"
